@@ -1,0 +1,36 @@
+{
+  "name": "clickupapis",
+  "version": "1.0.1",
+  "description": "Clickup APIs",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "build": "npx tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
+    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aws3ma/clickup.git"
+  },
+  "keywords": [
+    "Clickup",
+    "Clickup",
+    "API"
+  ],
+  "author": "Oussema Trabelsi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aws3ma/clickup/issues"
+  },
+  "homepage": "https://github.com/aws3ma/clickup#readme",
+  "devDependencies": {
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "axios": "^1.6.8"
+  }
+}
