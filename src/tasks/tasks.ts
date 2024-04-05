@@ -1,131 +1,139 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { baseurl } from '../baseurl'
-import { GetTasksResponse } from './models/GetTasksResponse'
-import { CreateTaskInput, CreateTaskResponse } from './models/CreateTask'
-import { GetTaskResponse } from './models/getTaskResponse'
+import { GetTasksResponse } from './models/getTasks'
+import { CreateTaskInput, CreateTaskResponse } from './models/createTask'
+import { GetTaskResponse } from './models/getTask'
 import { UpdateTaskInput, UpdateTaskResponse } from './models/updateTask'
+import { ClickupApiAccessToken, ClickupError } from '../globalInterfaces'
+import { AxiosError } from 'axios'
 
 export class Tasks {
-  constructor(private readonly accessToken: string) {}
-  getTasks = async (list_id: string, archived: boolean = false, subtasks: boolean = true) => {
+  constructor(private readonly accessToken: ClickupApiAccessToken) {
+    axios.defaults.baseURL = baseurl
+    axios.interceptors.request.use(config => {
+      if (this.accessToken.access_token !== '') {
+        ;(config.headers.Authorization = `${this.accessToken.token_type} ${this.accessToken.access_token}`),
+          (config.headers['Content-Type'] = 'application/json')
+      }
+      return config
+    })
+  }
+  getTasks = async (
+    list_id: string,
+    archived: boolean = false,
+    subtasks: boolean = true,
+  ): Promise<
+    AxiosResponse<GetTasksResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: GetTasksResponse = await axios.get(
-        `${baseurl}/list/${list_id}/task?archived=${archived}&subtasks=${subtasks}`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
+      const response = await axios.get<GetTasksResponse>(
+        `/list/${list_id}/task?archived=${archived}&subtasks=${subtasks}`,
       )
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
   createTask = async (
     list_id: string,
     data: CreateTaskInput,
-  ) => {
+  ): Promise<
+    AxiosResponse<CreateTaskResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: CreateTaskResponse = await axios.post(
-        `${baseurl}/list/${list_id}/task`,
+      const response = await axios.post<CreateTaskResponse>(
+        `/list/${list_id}/task`,
         data,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
       )
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  getTask = async (task_id: string, include_subtasks:boolean = true) => {
+  getTask = async (
+    task_id: string,
+    include_subtasks: boolean = true,
+  ): Promise<
+    AxiosResponse<GetTaskResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: GetTaskResponse = await axios.get(
-        `${baseurl}/task/${task_id}?include_subtasks=${include_subtasks}`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
+      const response = await axios.get<GetTaskResponse>(
+        `/task/${task_id}?include_subtasks=${include_subtasks}`,
       )
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  updateTask = async (task_id: string, data: UpdateTaskInput) => {
+  updateTask = async (
+    task_id: string,
+    data: UpdateTaskInput,
+  ): Promise<
+    AxiosResponse<UpdateTaskResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: UpdateTaskResponse = await axios.put(
-        `${baseurl}/list/${task_id}`,
+      const response = await axios.put<UpdateTaskResponse>(
+        `/list/${task_id}`,
         data,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
       )
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  deleteTask = async (task_id: string) => {
+  deleteTask = async (
+    task_id: string,
+  ): Promise<AxiosResponse<any> | AxiosError<ClickupError> | undefined> => {
     try {
-      await axios.delete(
-        `${baseurl}/task/${task_id}`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-            "Content-Type": "application/json"
-          },
-        },
-      )
-      return true
-    } catch (error) {
+      const response = await axios.delete(`/task/${task_id}`)
+      return response
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  getFilteredTeamTask = async (team_id: string, include_subtasks:boolean = true) => {
+  getFilteredTeamTask = async (
+    team_id: string,
+    include_subtasks: boolean = true,
+  ): Promise<
+    AxiosResponse<any> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: GetTaskResponse = await axios.get(
-        `${baseurl}/team/${team_id}/task?include_subtasks=${include_subtasks}`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
+      const response = await axios.get(
+        `/team/${team_id}/task?include_subtasks=${include_subtasks}`,
       )
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  getTaskTimeInStatus = async (task_id: string, custom_task_ids:boolean= false,team_id?:string) => {
+  getTaskTimeInStatus = async (
+    task_id: string,
+    custom_task_ids: boolean = false,
+    team_id?: string,
+  ): Promise<
+    AxiosResponse<any> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const url:string = `${baseurl}/task/${task_id}/time_in_status?custom_task_ids=${custom_task_ids}`
-      if(team_id) {
+      const url: string = `/task/${task_id}/time_in_status?custom_task_ids=${custom_task_ids}`
+      if (team_id) {
         url.concat(`&team_id=${team_id}`)
       }
-      const response: GetTaskResponse = await axios.get(
-        url,
-        {
-          headers: {
-            Authorization: this.accessToken,
-            "Content-Type": "application/json"
-          },
-        },
-      )
+      const response = await axios.get(url)
       return response
     } catch (error) {
       console.log(error)
+      // return error
     }
   }
   // getBulkTasksTimeInStatus = async (task_id: string, custom_task_ids:boolean= false,team_id?:string) => {
   //   try {
-  //     const url:string = `${baseurl}/task/${task_id}/time_in_status?custom_task_ids=${custom_task_ids}`
+  //     const url:string = `/task/${task_id}/time_in_status?custom_task_ids=${custom_task_ids}`
   //     if(team_id) {
   //       url.concat(`&team_id=${team_id}`)
   //     }

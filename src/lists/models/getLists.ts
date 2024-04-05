@@ -1,19 +1,22 @@
-export interface GetListResponse {
+export interface GetListsResponse {
+  lists: List[]
+}
+
+export interface List {
   id: string
   name: string
-  deleted: boolean
   orderindex: number
   content: string
+  status: string
   priority: number
   assignee: number
+  task_count: number
   due_date: number
   start_date: number
   folder: Folder
   space: Space
-  inbound_address: string
   archived: boolean
   override_statuses: boolean
-  statuses: Status[]
   permission_level: string
 }
 
@@ -28,12 +31,4 @@ export interface Space {
   id: string
   name: string
   access: boolean
-}
-
-export interface Status {
-  id: string
-  status: string
-  orderindex: number
-  color: string
-  type: string
 }

@@ -1,4 +1,4 @@
-export interface CreateFolderlessListsInput {
+export interface CreateFolderlessListInput {
   name: string;
   content?: string | null;
   due_date?: number | null;
@@ -8,7 +8,7 @@ export interface CreateFolderlessListsInput {
   status?: string | null;
 }
 
-export interface CreateFolderlessListsResponse {
+export interface CreateFolderlessListResponse {
   id: string;
   name: string;
   orderindex: number;

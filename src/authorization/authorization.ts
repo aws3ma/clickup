@@ -1,64 +1,70 @@
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { baseurl } from '../baseurl'
-import { GetAccessTokenResponse } from './models/accessToken'
-import { GetAuthorizedUserResponse } from './models/user'
-import { GetAuthorizedTeamResponse } from './models/team'
+import { GetAccessTokenResponse } from './models/getAccessToken'
+import { GetAuthorizedUserResponse } from './models/getAuthorizedUser'
+import { GetAuthorizedTeamResponse } from './models/getAuthorizedTeam'
+import { ClickupApiAccessToken, ClickupError } from '../globalInterfaces'
 export class Authorization {
   isAuthorized: boolean
-  accessToken: string
+  accessToken: ClickupApiAccessToken
   constructor(
     private readonly client_id: string,
     private readonly client_secret: string,
     private readonly code: string,
   ) {
     this.isAuthorized = false
-    this.accessToken = ''
-  }
-  getAccessToken = async () => {
-    try {
-      const response: GetAccessTokenResponse = await axios.post(
-        `${baseurl}/oauth/token?client_id=${this.client_id}&client_secret=${this.client_secret}&code=${this.code}`,
-      )
-      this.accessToken = response.access_token
-      this.isAuthorized = true
-      return response
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  getAuthorizedUser = async () => {
-    try {
-      if (!this.isAuthorized) {
-        console.log('please authenticate first')
-        return
+    this.accessToken = { access_token: '', token_type: 'Bearer' }
+    axios.defaults.baseURL = baseurl
+    axios.interceptors.request.use(config => {
+      if (this.accessToken.access_token !== '') {
+        config.headers.Authorization = `${this.accessToken.token_type} ${this.accessToken.access_token}`
       }
-      const response: GetAuthorizedUserResponse = await axios.get(
-        `${baseurl}/user`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
+      return config
+    })
+  }
+  getAccessToken = async (): Promise<
+    AxiosResponse<GetAccessTokenResponse> | AxiosError<ClickupError> | undefined
+  > => {
+    try {
+      const response = await axios.post<GetAccessTokenResponse>(
+        `/oauth/token?client_id=${this.client_id}&client_secret=${this.client_secret}&code=${this.code}`,
       )
+      this.accessToken = response.data
+      // this.isAuthorized = true
       return response
-    } catch (e) {
+    } catch (e: any) {
+      if (e instanceof AxiosError) return e
       console.log(e)
     }
   }
-  getAuthorizedTeam = async () => {
+  getAuthorizedUser = async (): Promise<
+    | AxiosResponse<GetAuthorizedUserResponse>
+    | AxiosError<ClickupError>
+    | undefined
+  > => {
     try {
-      const response: GetAuthorizedTeamResponse =await axios.get(
-        `${baseurl}/team`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
-      )
+      const response = await axios.get<GetAuthorizedUserResponse>(`/user`)
+      return response
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
+      console.log(error)
+    }
+  }
+  getAuthorizedTeam = async (): Promise<
+    | AxiosResponse<GetAuthorizedTeamResponse>
+    | AxiosError<ClickupError>
+    | undefined
+  > => {
+    try {
+      const response = await axios.get<GetAuthorizedTeamResponse>(`/team`)
       return response
     } catch (error) {
-      console.log(error);
-      
+      if (error instanceof AxiosError) return error
+      console.log(error)
     }
+  }
+  setAccessToken = (data: GetAccessTokenResponse): GetAccessTokenResponse => {
+    this.accessToken = data
+    return this.accessToken
   }
 }

@@ -1,27 +1,15 @@
-export interface GetListResponse {
+export interface GetFolderResponse {
   id: string
   name: string
-  deleted: boolean
   orderindex: number
-  content: string
-  priority: number
-  assignee: number
-  due_date: number
-  start_date: number
-  folder: Folder
-  space: Space
-  inbound_address: string
-  archived: boolean
   override_statuses: boolean
-  statuses: Status[]
-  permission_level: string
-}
-
-export interface Folder {
-  id: string
-  name: string
   hidden: boolean
-  access: boolean
+  space: Space
+  task_count: string
+  archived: boolean
+  statuses: Status[]
+  lists: any[]
+  permission_level: string
 }
 
 export interface Space {

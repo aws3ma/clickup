@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "build": "npx tsc -p tsconfig.json && tsc -p tsconfig-cjs.json",
-    "test": "echo \\\"Error: no test specified\\\" && exit 1",
+    "test": "npm i . && npx tsx test/folders.ts",
     "prepublishOnly": "npm run build"
   },
   "repository": {

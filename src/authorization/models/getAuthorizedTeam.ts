@@ -1,9 +1,18 @@
 export type GetAuthorizedTeamResponse = {
+  teams: Team[]
+}
+
+type Team = {
   id: string
   name: string
   color: string
   avatar: string | null
   members: Member[]
+}
+
+type Member = {
+  user: User
+  invited_by?: InvitedBy
 }
 
 type User = {
@@ -29,9 +38,6 @@ type InvitedBy = {
   profilePicture: string | null
 }
 
-type Member = {
-  user: User
-  invited_by?: InvitedBy
-}
+
 
 

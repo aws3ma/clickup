@@ -1,90 +1,77 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { baseurl } from '../baseurl'
-import { GetSpacesResponse } from './models/getSpacesResponse'
-import { CreateSpaceInput } from './models/createSpaceInput'
-import { UpdateSpaceInput } from './models/updateSpaceInput'
-import { CreateSpaceResponse } from './models/createSpaceResponse'
-import { GetSpaceResponse } from './models/getSpaceResponse'
-import { UpdateSpaceResponse } from './models/updateSpaceResponse'
+import { GetSpaceResponse, GetSpacesResponse } from './models/getSpaces'
+import { CreateSpaceInput } from './models/createSpace'
+import { UpdateSpaceInput } from './models/updateSpace'
+import { CreateSpaceResponse } from './models/createSpace'
+import { UpdateSpaceResponse } from './models/updateSpace'
+import { ClickupApiAccessToken, ClickupError } from '../globalInterfaces'
+import { AxiosError } from 'axios'
 export class Spaces {
-  constructor(private readonly accessToken: string) {}
-  getSpaces = async (team_id: string, archived: boolean = false) => {
+  constructor(private readonly accessToken: ClickupApiAccessToken) {
+    axios.defaults.baseURL = baseurl
+    axios.interceptors.request.use(config => {
+      if (this.accessToken.access_token !== '') {
+        ;(config.headers.Authorization = `${this.accessToken.token_type} ${this.accessToken.access_token}`),
+          (config.headers['Content-Type'] = 'application/json')
+      }
+      return config
+    })
+  }
+  getSpaces = async (teamId: string | number, archived: boolean = false): Promise<
+  AxiosResponse<GetSpacesResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: GetSpacesResponse = await axios.get(
-        `${baseurl}/team/${team_id}/space?archived=${archived}`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
+      const response = await axios.get<GetSpacesResponse>(
+        `/team/${teamId}/space?archived=${archived}`,
       )
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  createSpace = async (
-    team_id: string,
-    data: CreateSpaceInput,
-  ) => {
+  createSpace = async (teamId: string, data: CreateSpaceInput): Promise<
+  AxiosResponse<CreateSpaceResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: CreateSpaceResponse = await axios.post(
-        `${baseurl}/team/${team_id}/space`,
-        data,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
-      )
+      const response = await axios.post<CreateSpaceResponse>(`/team/${teamId}/space`, data)
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  getSpace = async (space_id: string) => {
+  getSpace = async (space_id: string): Promise<
+  AxiosResponse<GetSpaceResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: GetSpaceResponse = await axios.get(
-        `${baseurl}/space/${space_id}`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
-      )
+      const response = await axios.get<GetSpaceResponse>(`/space/${space_id}`)
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  updateSpace = async (space_id: string, data: UpdateSpaceInput) => {
+  updateSpace = async (space_id: string, data: UpdateSpaceInput): Promise<
+  AxiosResponse<UpdateSpaceResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: UpdateSpaceResponse = await axios.put(
-        `${baseurl}/space/${space_id}`,
-        data,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
-      )
+      const response = await axios.put<UpdateSpaceResponse>(`/space/${space_id}`, data)
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  deleteSpace = async (space_id: string) => {
+  deleteSpace = async (space_id: string): Promise<
+  AxiosResponse<any> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      await axios.delete(
-        `${baseurl}/space/${space_id}`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
-      )
-      return true
-    } catch (error) {
+      const response = await axios.delete(`/space/${space_id}`)
+      return response
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }

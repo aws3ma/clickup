@@ -1,64 +1,67 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { baseurl } from '../baseurl'
-import { GetAuthorizedTeamsWorkspacesResponse } from './models/getAuthorizedTeamsWorkspacesResponse'
-import { GetWorkspaceSeatsResponse } from './models/getWorkspaceSeatsResponse'
+import { GetAuthorizedTeamsWorkspacesResponse } from './models/getAuthorizedTeamsWorkspaces'
+import { GetWorkspaceSeatsResponse } from './models/getWorkspaceSeats'
+import { ClickupApiAccessToken, ClickupError } from '../globalInterfaces'
+import { AxiosError } from 'axios'
+import { GetWorkspacePlanResponse } from './models/getWorkspacePlan'
 export class TeamsWorkspaces {
-  constructor(private readonly accessToken: string, private team_id?:string) {}
-  setTeamId = (teamId: string) => {
-    this.team_id=teamId
+  constructor(private readonly accessToken: ClickupApiAccessToken, private teamId?:string | number) {
+    axios.defaults.baseURL = baseurl
+    axios.interceptors.request.use(config => {
+      if (this.accessToken.access_token !== '') {
+        ;(config.headers.Authorization = `${this.accessToken.token_type} ${this.accessToken.access_token}`),
+          (config.headers['Content-Type'] = 'application/json')
+      }
+      return config
+    })
   }
-  getAuthorizedTeamsWorkspaces = async () => {
+  setTeamId = (teamId: string | number): void => {
+    this.teamId=teamId
+  }
+  getAuthorizedTeamsWorkspaces = async (): Promise<
+  AxiosResponse<GetAuthorizedTeamsWorkspacesResponse> | AxiosError<ClickupError> | undefined
+> => {
     try {
-      const response: GetAuthorizedTeamsWorkspacesResponse = await axios.get(
-        `${baseurl}/team`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
-      )
+      const response = await axios.get<GetAuthorizedTeamsWorkspacesResponse>(
+        `/team`)
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
   /**
    * 
-   * @param team_id optional if team_id is setted using setTeamId method
+   * @param teamId optional if teamId is setted using setTeamId method
    * @returns workspace seats
    */
-  getWorkspaceSeats = async (team_id?: string) => {
+  getWorkspaceSeats = async (teamId?: string | number): Promise<
+  AxiosResponse<GetWorkspaceSeatsResponse> | AxiosError<ClickupError> | undefined
+> => {
     try {
-      const response: GetWorkspaceSeatsResponse = await axios.get(
-        `${baseurl}/team/${team_id || this.team_id}/seats`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
-      )
+      const response = await axios.get<GetWorkspaceSeatsResponse>(
+        `/team/${teamId || this.teamId}/seats`)
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
   /**
    * 
-   * @param team_id optional if team_id is setted using setTeamId method
+   * @param teamId optional if teamId is setted using setTeamId method
    * @returns workspace plan
    */
-  getWorkspacePlan = async (team_id?: string) => {
+  getWorkspacePlan = async (teamId?: string | number): Promise<
+  AxiosResponse<GetWorkspacePlanResponse> | AxiosError<ClickupError> | undefined
+> => {
     try {
-      const response: GetWorkspaceSeatsResponse = await axios.get(
-        `${baseurl}/team/${team_id || this.team_id}/plan`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
-      )
+      const response = await axios.get<GetWorkspacePlanResponse>(
+        `/team/${teamId || this.teamId}/plan`)
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }

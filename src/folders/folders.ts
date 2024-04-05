@@ -1,90 +1,100 @@
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { baseurl } from '../baseurl'
-import { GetFoldersResponse } from './models/getFoldersResponse'
-import { CreateFolderResponse } from './models/createFolderResponse'
-import { UpdateFolderInput } from './models/updateFolderInput'
-import { CreateFolderInput } from './models/createFolderInput'
-import { GetFolderResponse } from './models/getfolderResponse'
-import { UpdateFolderResponse } from './models/updateFolderResponse'
+import { GetFoldersResponse } from './models/getFolders'
+import { CreateFolderResponse, CreateFolderInput } from './models/createFolder'
+import { UpdateFolderInput, UpdateFolderResponse } from './models/updateFolder'
+import { GetFolderResponse } from './models/getfolder'
+import { ClickupApiAccessToken, ClickupError } from '../globalInterfaces'
 export class Folders {
-  constructor(private readonly accessToken: string) {}
-  getFolders = async (space_id: string, archived: boolean = false) => {
+  constructor(
+    private readonly accessToken: ClickupApiAccessToken,
+    private spaceId?: string | number,
+    private folderId?: string | number,
+  ) {
+    axios.defaults.baseURL = baseurl
+    axios.interceptors.request.use(config => {
+      if (this.accessToken.access_token !== '') {
+        config.headers.Authorization = `${this.accessToken.token_type} ${this.accessToken.access_token}`,
+        config.headers['Content-Type'] = 'application/json'
+      }
+      return config
+    })
+  }
+  getFolders = async (
+    spaceId?: string | number,
+    archived: boolean = false,
+  ): Promise<
+    AxiosResponse<GetFoldersResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: GetFoldersResponse = await axios.get(
-        `${baseurl}/space/${space_id}/folder?archived=${archived}`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
+      const response = await axios.get<GetFoldersResponse>(
+        `/space/${spaceId || this.spaceId}/folder?archived=${archived}`,
       )
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
   createFolder = async (
-    space_id: string,
     data: CreateFolderInput,
-  ) => {
+    spaceId?: string | number,
+  ): Promise<
+    AxiosResponse<CreateFolderResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: CreateFolderResponse = await axios.post(
-        `${baseurl}/space/${space_id}/folder`,
+      const response = await axios.post<CreateFolderResponse>(
+        `/space/${spaceId || this.spaceId}/folder`,
         data,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
       )
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  getFolder = async (folder_id: string) => {
+  getFolder = async (
+    folderId?: string | number,
+  ): Promise<
+    AxiosResponse<GetFolderResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: GetFolderResponse = await axios.get(
-        `${baseurl}/folder/${folder_id}`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
+      const response = await axios.get<GetFolderResponse>(
+        `/folder/${folderId || this.folderId}`,
       )
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  updateFolder = async (folder_id: string, data: UpdateFolderInput) => {
+  updateFolder = async (
+    data: UpdateFolderInput,
+    folderId?: string | number,
+  ): Promise<
+    AxiosResponse<UpdateFolderResponse> | AxiosError<ClickupError> | undefined
+  > => {
     try {
-      const response: UpdateFolderResponse = await axios.put(
-        `${baseurl}/folder/${folder_id}`,
+      const response = await axios.put<UpdateFolderResponse>(
+        `/folder/${folderId || this.folderId}`,
         data,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
       )
       return response
-    } catch (error) {
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
-  deleteFolder = async (folder_id: string) => {
+  deleteFolder = async (
+    folderId?: string | number,
+  ): Promise<AxiosResponse<any> | AxiosError<ClickupError> | undefined> => {
     try {
-      await axios.delete(
-        `${baseurl}/folder/${folder_id}`,
-        {
-          headers: {
-            Authorization: this.accessToken,
-          },
-        },
+      const response = await axios.delete(
+        `/folder/${folderId || this.folderId}`,
       )
-      return true
-    } catch (error) {
+      return response
+    } catch (error: any) {
+      if (error instanceof AxiosError) return error
       console.log(error)
     }
   }
