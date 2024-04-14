@@ -96,41 +96,41 @@ export class Tasks {
       console.log(error)
     }
   }
-  getFilteredTeamTask = async (
-    team_id: string,
-    include_subtasks: boolean = true,
-  ): Promise<
-    AxiosResponse<any> | AxiosError<ClickupError> | undefined
-  > => {
-    try {
-      const response = await axios.get(
-        `/team/${team_id}/task?include_subtasks=${include_subtasks}`,
-      )
-      return response
-    } catch (error: any) {
-      if (error instanceof AxiosError) return error
-      console.log(error)
-    }
-  }
-  getTaskTimeInStatus = async (
-    task_id: string,
-    custom_task_ids: boolean = false,
-    team_id?: string,
-  ): Promise<
-    AxiosResponse<any> | AxiosError<ClickupError> | undefined
-  > => {
-    try {
-      const url: string = `/task/${task_id}/time_in_status?custom_task_ids=${custom_task_ids}`
-      if (team_id) {
-        url.concat(`&team_id=${team_id}`)
-      }
-      const response = await axios.get(url)
-      return response
-    } catch (error) {
-      console.log(error)
-      // return error
-    }
-  }
+  // getFilteredTeamTask = async (
+  //   team_id: string,
+  //   include_subtasks: boolean = true,
+  // ): Promise<
+  //   AxiosResponse<any> | AxiosError<ClickupError> | undefined
+  // > => {
+  //   try {
+  //     const response = await axios.get(
+  //       `/team/${team_id}/task?include_subtasks=${include_subtasks}`,
+  //     )
+  //     return response
+  //   } catch (error: any) {
+  //     if (error instanceof AxiosError) return error
+  //     console.log(error)
+  //   }
+  // }
+  // getTaskTimeInStatus = async (
+  //   task_id: string,
+  //   custom_task_ids: boolean = false,
+  //   team_id?: string,
+  // ): Promise<
+  //   AxiosResponse<any> | AxiosError<ClickupError> | undefined
+  // > => {
+  //   try {
+  //     const url: string = `/task/${task_id}/time_in_status?custom_task_ids=${custom_task_ids}`
+  //     if (team_id) {
+  //       url.concat(`&team_id=${team_id}`)
+  //     }
+  //     const response = await axios.get(url)
+  //     return response
+  //   } catch (error) {
+  //     console.log(error)
+  //     // return error
+  //   }
+  // }
   // getBulkTasksTimeInStatus = async (task_id: string, custom_task_ids:boolean= false,team_id?:string) => {
   //   try {
   //     const url:string = `/task/${task_id}/time_in_status?custom_task_ids=${custom_task_ids}`

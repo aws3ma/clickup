@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios'
 import { baseurl } from '../baseurl'
-import { GetSpaceResponse, GetSpacesResponse } from './models/getSpaces'
+import { GetSpaceResponse } from './models/getSpace'
+import { GetSpacesResponse } from './models/getSpaces'
 import { CreateSpaceInput } from './models/createSpace'
 import { UpdateSpaceInput } from './models/updateSpace'
 import { CreateSpaceResponse } from './models/createSpace'

@@ -1,103 +1,114 @@
 export interface GetSpacesResponse {
-  spaces?: (SpacesEntity)[] | null;
-}
-export interface SpacesEntity {
-  id: string;
-  name: string;
-  color?: string | null;
-  private: boolean;
-  avatar?: null;
-  admin_can_manage: boolean;
-  statuses?: (StatusesEntity)[] | null;
-  multiple_assignees: boolean;
-  features: Features;
-  archived: boolean;
-}
-export interface StatusesEntity {
-  id: string;
-  status: string;
-  type: string;
-  orderindex: number;
-  color: string;
-}
-export interface Features {
-  due_dates: DueDates;
-  sprints: SprintsOrPointsOrCustomItemsOrTagsOrZoomOrMilestonesOrCustomFieldsOrDependencyWarningOrStatusPiesOrMultipleAssignees;
-  time_tracking: TimeTracking;
-  points: SprintsOrPointsOrCustomItemsOrTagsOrZoomOrMilestonesOrCustomFieldsOrDependencyWarningOrStatusPiesOrMultipleAssignees;
-  custom_items: SprintsOrPointsOrCustomItemsOrTagsOrZoomOrMilestonesOrCustomFieldsOrDependencyWarningOrStatusPiesOrMultipleAssignees;
-  priorities: Priorities;
-  tags: SprintsOrPointsOrCustomItemsOrTagsOrZoomOrMilestonesOrCustomFieldsOrDependencyWarningOrStatusPiesOrMultipleAssignees;
-  check_unresolved: CheckUnresolved;
-  zoom: SprintsOrPointsOrCustomItemsOrTagsOrZoomOrMilestonesOrCustomFieldsOrDependencyWarningOrStatusPiesOrMultipleAssignees;
-  milestones: SprintsOrPointsOrCustomItemsOrTagsOrZoomOrMilestonesOrCustomFieldsOrDependencyWarningOrStatusPiesOrMultipleAssignees;
-  custom_fields: SprintsOrPointsOrCustomItemsOrTagsOrZoomOrMilestonesOrCustomFieldsOrDependencyWarningOrStatusPiesOrMultipleAssignees;
-  dependency_warning: SprintsOrPointsOrCustomItemsOrTagsOrZoomOrMilestonesOrCustomFieldsOrDependencyWarningOrStatusPiesOrMultipleAssignees;
-  status_pies: SprintsOrPointsOrCustomItemsOrTagsOrZoomOrMilestonesOrCustomFieldsOrDependencyWarningOrStatusPiesOrMultipleAssignees;
-  multiple_assignees: SprintsOrPointsOrCustomItemsOrTagsOrZoomOrMilestonesOrCustomFieldsOrDependencyWarningOrStatusPiesOrMultipleAssignees;
-}
-export interface DueDates {
-  enabled: boolean;
-  start_date: boolean;
-  remap_due_dates: boolean;
-  remap_closed_due_date: boolean;
-}
-export interface SprintsOrPointsOrCustomItemsOrTagsOrZoomOrMilestonesOrCustomFieldsOrDependencyWarningOrStatusPiesOrMultipleAssignees {
-  enabled: boolean;
-}
-export interface TimeTracking {
-  enabled: boolean;
-  harvest: boolean;
-  rollup: boolean;
-  default_to_billable: number;
-}
-export interface Priorities {
-  enabled: boolean;
-  priorities?: (PrioritiesEntity)[] | null;
-}
-export interface PrioritiesEntity {
-  color: string;
-  id: string;
-  orderindex: string;
-  priority: string;
-}
-export interface CheckUnresolved {
-  enabled: boolean;
-  subtasks?: null;
-  checklists?: null;
-  comments?: null;
+  spaces: Space[]
 }
 
-export interface GetSpaceResponse {
-  id: string;
-  name: string;
-  private: boolean;
-  statuses?: (StatusesEntity)[] | null;
-  multiple_assignees: boolean;
-  features: Features;
+export interface Space {
+  id: string
+  name: string
+  color?: string
+  private: boolean
+  avatar?: string
+  admin_can_manage: boolean
+  statuses: Status[]
+  multiple_assignees: boolean
+  features: Features
+  archived: boolean
 }
-export interface StatusesEntity {
-  status: string;
-  type: string;
-  orderindex: number;
-  color: string;
+
+export interface Status {
+  id: string
+  status: string
+  type: string
+  orderindex: number
+  color: string
 }
+
 export interface Features {
-  due_dates: DueDates;
-  tags: TimeTrackingOrTagsOrTimeEstimatesOrChecklistsOrCustomFieldsOrRemapDependenciesOrDependencyWarningOrPortfolios;
-  time_estimates: TimeTrackingOrTagsOrTimeEstimatesOrChecklistsOrCustomFieldsOrRemapDependenciesOrDependencyWarningOrPortfolios;
-  checklists: TimeTrackingOrTagsOrTimeEstimatesOrChecklistsOrCustomFieldsOrRemapDependenciesOrDependencyWarningOrPortfolios;
-  custom_fields: TimeTrackingOrTagsOrTimeEstimatesOrChecklistsOrCustomFieldsOrRemapDependenciesOrDependencyWarningOrPortfolios;
-  remap_dependencies: TimeTrackingOrTagsOrTimeEstimatesOrChecklistsOrCustomFieldsOrRemapDependenciesOrDependencyWarningOrPortfolios;
-  dependency_warning: TimeTrackingOrTagsOrTimeEstimatesOrChecklistsOrCustomFieldsOrRemapDependenciesOrDependencyWarningOrPortfolios;
-  portfolios: TimeTrackingOrTagsOrTimeEstimatesOrChecklistsOrCustomFieldsOrRemapDependenciesOrDependencyWarningOrPortfolios;
+  due_dates: DueDates
+  sprints: Sprints
+  time_tracking: TimeTracking
+  points: Points
+  custom_items: CustomItems
+  priorities: Priorities
+  tags: Tags
+  check_unresolved: CheckUnresolved
+  zoom: Zoom
+  milestones: Milestones
+  custom_fields: CustomFields
+  dependency_warning: DependencyWarning
+  status_pies: StatusPies
+  multiple_assignees: MultipleAssignees
 }
+
 export interface DueDates {
-  enabled: boolean;
-  start_date: boolean;
-  remap_due_dates: boolean;
-  remap_closed_due_date: boolean;
+  enabled: boolean
+  start_date: boolean
+  remap_due_dates: boolean
+  remap_closed_due_date: boolean
 }
-export interface TimeTrackingOrTagsOrTimeEstimatesOrChecklistsOrCustomFieldsOrRemapDependenciesOrDependencyWarningOrPortfolios {
-  enabled: boolean;
+
+export interface Sprints {
+  enabled: boolean
+}
+
+export interface TimeTracking {
+  enabled: boolean
+  harvest: boolean
+  rollup: boolean
+  default_to_billable: number
+}
+
+export interface Points {
+  enabled: boolean
+}
+
+export interface CustomItems {
+  enabled: boolean
+}
+
+export interface Priorities {
+  enabled: boolean
+  priorities: Priority[]
+}
+
+export interface Priority {
+  color: string
+  id: string
+  orderindex: string
+  priority: string
+}
+
+export interface Tags {
+  enabled: boolean
+}
+
+export interface CheckUnresolved {
+  enabled: boolean
+  subtasks: any
+  checklists: any
+  comments: any
+}
+
+export interface Zoom {
+  enabled: boolean
+}
+
+export interface Milestones {
+  enabled: boolean
+}
+
+export interface CustomFields {
+  enabled: boolean
+}
+
+export interface DependencyWarning {
+  enabled: boolean
+}
+
+export interface StatusPies {
+  enabled: boolean
+}
+
+export interface MultipleAssignees {
+  enabled: boolean
 }

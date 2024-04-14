@@ -14,10 +14,10 @@ export interface CreateListResponse {
   deleted: boolean
   orderindex: number
   content: string
-  priority: number
-  assignee: number
-  due_date: number
-  start_date: number
+  priority: number | null
+  assignee: number | null
+  due_date: number | null
+  start_date: number | null
   folder: Folder
   space: Space
   inbound_address: string
@@ -46,4 +46,5 @@ export interface Status {
   orderindex: number
   color: string
   type: string
+  status_group: string
 }

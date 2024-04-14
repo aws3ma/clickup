@@ -11,7 +11,6 @@ import {
 import { GetListResponse } from './models/getList'
 import { UpdateListInput, UpdateListResponse } from './models/UpdateList'
 import { ClickupApiAccessToken, ClickupError } from '../globalInterfaces'
-import { CreateFolderlessListsResponse } from '../../lib/cjs/lists/models/createFolderlessList'
 export class Lists {
   constructor(private readonly accessToken: ClickupApiAccessToken) {
     axios.defaults.baseURL = baseurl
@@ -75,7 +74,7 @@ export class Lists {
   }
   createFolderlessList = async (
     space_id: string,
-    data: CreateFolderlessListsResponse,
+    data: CreateFolderlessListInput,
   ): Promise<
     | AxiosResponse<CreateFolderlessListResponse>
     | AxiosError<ClickupError>

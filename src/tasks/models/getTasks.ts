@@ -1,109 +1,128 @@
 export interface GetTasksResponse {
-  tasks?: (TasksEntity)[] | null;
-  last_page: boolean;
+  tasks: Task[]
+  last_page: boolean
 }
-export interface TasksEntity {
-  id: string;
-  custom_id?: null;
-  custom_item_id: number;
-  name: string;
-  text_content: string;
-  description: string;
-  status: Status;
-  orderindex: string;
-  date_created: string;
-  date_updated: string;
-  date_closed?: null;
-  date_done?: null;
-  archived: boolean;
-  creator: Creator;
-  assignees?: (WatchersEntityOrAssigneesEntity | null)[] | null;
-  group_assignees?: (null)[] | null;
-  watchers?: (WatchersEntityOrAssigneesEntity1)[] | null;
-  checklists?: (null)[] | null;
-  tags?: (TagsEntity | null)[] | null;
-  parent?: string | null;
-  priority?: Priority | null;
-  due_date?: string | null;
-  start_date?: string | null;
-  points?: null;
-  time_estimate?: number | null;
-  custom_fields?: (null)[] | null;
-  dependencies?: (null)[] | null;
-  linked_tasks?: (null)[] | null;
-  locations?: (LocationsEntity | null)[] | null;
-  team_id: string;
-  url: string;
-  sharing: Sharing;
-  permission_level: string;
-  list: List;
-  project: ProjectOrFolder;
-  folder: ProjectOrFolder;
-  space: Space;
+
+export interface Task {
+  id: string
+  custom_id: any
+  custom_item_id: number
+  name: string
+  text_content: string
+  description: string
+  status: Status
+  orderindex: string
+  date_created: string
+  date_updated: string
+  date_closed: any
+  date_done: any
+  archived: boolean
+  creator: Creator
+  assignees: Assignee[]
+  group_assignees: any[]
+  watchers: Watcher[]
+  checklists: any[]
+  tags: Tag[]
+  parent?: string
+  priority?: Priority
+  due_date?: string
+  start_date?: string
+  points: any
+  time_estimate?: number
+  custom_fields: any[]
+  dependencies: any[]
+  linked_tasks: any[]
+  locations: Location[]
+  team_id: string
+  url: string
+  sharing: Sharing
+  permission_level: string
+  list: List
+  project: Project
+  folder: Folder
+  space: Space
 }
+
 export interface Status {
-  status: string;
-  color: string;
-  type: string;
-  orderindex: number;
+  status: string
+  color: string
+  type: string
+  orderindex: number
 }
+
 export interface Creator {
-  id: number;
-  username: string;
-  color: string;
-  email: string;
-  profilePicture?: null;
+  id: number
+  username: string
+  color: string
+  email: string
+  profilePicture: any
 }
-export interface WatchersEntityOrAssigneesEntity {
-  id: number;
-  username: string;
-  color: string;
-  initials: string;
-  email: string;
-  profilePicture?: null;
+
+export interface Assignee {
+  id: number
+  username: string
+  color: string
+  initials: string
+  email: string
+  profilePicture: any
 }
-export interface WatchersEntityOrAssigneesEntity1 {
-  id: number;
-  username: string;
-  color: string;
-  initials: string;
-  email: string;
-  profilePicture?: null;
+
+export interface Watcher {
+  id: number
+  username: string
+  color: string
+  initials: string
+  email: string
+  profilePicture: any
 }
-export interface TagsEntity {
-  name: string;
-  tag_fg: string;
-  tag_bg: string;
-  creator?: null;
+
+export interface Tag {
+  name: string
+  tag_fg: string
+  tag_bg: string
+  creator: any
 }
+
 export interface Priority {
-  color: string;
-  id: string;
-  orderindex: string;
-  priority: string;
+  color: string
+  id: string
+  orderindex: string
+  priority: string
 }
-export interface LocationsEntity {
-  id: string;
-  name: string;
+
+export interface Location {
+  id: string
+  name: string
 }
+
 export interface Sharing {
-  public: boolean;
-  public_share_expires_on?: null;
-  public_fields?: (string)[] | null;
-  token?: null;
-  seo_optimized: boolean;
+  public: boolean
+  public_share_expires_on: any
+  public_fields: string[]
+  token: any
+  seo_optimized: boolean
 }
+
 export interface List {
-  id: string;
-  name: string;
-  access: boolean;
+  id: string
+  name: string
+  access: boolean
 }
-export interface ProjectOrFolder {
-  id: string;
-  name: string;
-  hidden: boolean;
-  access: boolean;
+
+export interface Project {
+  id: string
+  name: string
+  hidden: boolean
+  access: boolean
 }
+
+export interface Folder {
+  id: string
+  name: string
+  hidden: boolean
+  access: boolean
+}
+
 export interface Space {
-  id: string;
+  id: string
 }

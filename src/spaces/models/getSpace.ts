@@ -1,70 +1,9 @@
-export interface UpdateSpaceInput {
-  name: string
-  color?: string
-  private?: boolean
-  admin_can_manage?: boolean
-  multiple_assignees?: boolean
-  features?: Features
-}
-
-export interface Features {
-  due_dates: DueDates
-  time_tracking: TimeTracking
-  tags: Tags
-  time_estimates: TimeEstimates
-  checklists: Checklists
-  custom_fields: CustomFields
-  remap_dependencies: RemapDependencies
-  dependency_warning: DependencyWarning
-  portfolios: Portfolios
-}
-
-export interface DueDates {
-  enabled: boolean
-  start_date: boolean
-  remap_due_dates: boolean
-  remap_closed_due_date: boolean
-}
-
-export interface TimeTracking {
-  enabled: boolean
-}
-
-export interface Tags {
-  enabled: boolean
-}
-
-export interface TimeEstimates {
-  enabled: boolean
-}
-
-export interface Checklists {
-  enabled: boolean
-}
-
-export interface CustomFields {
-  enabled: boolean
-}
-
-export interface RemapDependencies {
-  enabled: boolean
-}
-
-export interface DependencyWarning {
-  enabled: boolean
-}
-
-export interface Portfolios {
-  enabled: boolean
-}
-
-
-export interface UpdateSpaceResponse {
+export interface GetSpaceResponse {
   id: string
   name: string
-  color: any
+  color: string | null
   private: boolean
-  avatar: any
+  avatar: string | null
   admin_can_manage: any
   statuses: Status[]
   multiple_assignees: boolean
@@ -93,6 +32,7 @@ export interface Features {
   remap_dependencies: RemapDependencies
   dependency_warning: DependencyWarning
   status_pies: StatusPies
+  multiple_assignees: MultipleAssignees
   emails: Emails
   time_tracking: TimeTracking
 }
@@ -155,6 +95,10 @@ export interface DependencyWarning {
 }
 
 export interface StatusPies {
+  enabled: boolean
+}
+
+export interface MultipleAssignees {
   enabled: boolean
 }
 

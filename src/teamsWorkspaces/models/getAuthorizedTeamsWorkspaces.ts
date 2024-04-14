@@ -1,37 +1,39 @@
-export type GetAuthorizedTeamsWorkspacesResponse = {
+export interface GetAuthorizedTeamsWorkspacesResponse {
+  teams: Team[]
+}
+
+export interface Team {
   id: string
   name: string
   color: string
-  avatar: string | null
+  avatar: any
   members: Member[]
 }
 
-type User = {
+export interface Member {
+  user: User
+  invited_by?: InvitedBy
+}
+
+export interface User {
   id: number
   username: string
   email: string
   color: string
-  profilePicture: string | null
+  profilePicture: any
   initials: string
-  role: 3
-  custom_role: null
+  role: number
+  custom_role: any
   last_active: string
   date_joined: string
   date_invited: string
 }
 
-type InvitedBy = {
+export interface InvitedBy {
   id: number
   username: string
   color: string
   email: string
   initials: string
-  profilePicture: string | null
+  profilePicture: any
 }
-
-type Member = {
-  user: User
-  invited_by?: InvitedBy
-}
-
-

@@ -1,107 +1,98 @@
 export interface GetTaskResponse {
-  id: string;
-  custom_id: string;
-  custom_item_id: number;
-  name: string;
-  text_content: string;
-  description: string;
-  status: Status;
-  orderindex: string;
-  date_created: string;
-  date_updated: string;
-  date_closed: string;
-  creator: Creator;
-  assignees?: (string)[] | null;
-  watchers?: (string)[] | null;
-  checklists?: (string)[] | null;
-  tags?: (string)[] | null;
-  parent: string;
-  priority: string;
-  due_date: string;
-  start_date: string;
-  time_estimate: string;
-  time_spent: string;
-  custom_fields?: (CustomFieldsEntity)[] | null;
-  list: ListOrFolderOrSpace;
-  folder: ListOrFolderOrSpace;
-  space: ListOrFolderOrSpace;
-  url: string;
-  markdown_description: string;
-  attachments?: (AttachmentsEntity)[] | null;
+  id: string
+  custom_id: any
+  custom_item_id: number
+  name: string
+  text_content: string
+  description: string
+  status: Status
+  orderindex: string
+  date_created: string
+  date_updated: string
+  date_closed: any
+  date_done: any
+  archived: boolean
+  creator: Creator
+  assignees: any[]
+  group_assignees: any[]
+  watchers: Watcher[]
+  checklists: any[]
+  tags: any[]
+  parent: any
+  priority: any
+  due_date: any
+  start_date: any
+  points: any
+  time_estimate: any
+  time_spent: number
+  custom_fields: any[]
+  dependencies: any[]
+  linked_tasks: any[]
+  locations: any[]
+  team_id: string
+  url: string
+  sharing: Sharing
+  permission_level: string
+  list: List
+  project: Project
+  folder: Folder
+  space: Space
+  attachments: any[]
 }
+
 export interface Status {
-  status: string;
-  color: string;
-  orderindex: number;
-  type: string;
+  id: string
+  status: string
+  color: string
+  orderindex: number
+  type: string
 }
+
 export interface Creator {
-  id: number;
-  username: string;
-  color: string;
-  profilePicture: string;
+  id: number
+  username: string
+  color: string
+  email: string
+  profilePicture: any
 }
-export interface CustomFieldsEntity {
-  id: string;
-  name: string;
-  type: string;
-  type_config: TypeConfig;
-  date_created: string;
-  hide_from_guests: boolean;
-  value: Value;
-  required: boolean;
+
+export interface Watcher {
+  id: number
+  username: string
+  color: string
+  initials: string
+  email: string
+  profilePicture: any
 }
-export interface TypeConfig {
+
+export interface Sharing {
+  public: boolean
+  public_share_expires_on: any
+  public_fields: string[]
+  token: any
+  seo_optimized: boolean
 }
-export interface Value {
-  id: number;
-  username: string;
-  email: string;
-  color: string;
-  initials: string;
-  profilePicture?: null;
+
+export interface List {
+  id: string
+  name: string
+  access: boolean
 }
-export interface ListOrFolderOrSpace {
-  id: string;
+
+export interface Project {
+  id: string
+  name: string
+  hidden: boolean
+  access: boolean
 }
-export interface AttachmentsEntity {
-  id: string;
-  date: number;
-  title: string;
-  type: number;
-  source: number;
-  version: number;
-  extension: string;
-  thumbnail_small?: null;
-  thumbnail_medium?: null;
-  thumbnail_large?: null;
-  is_folder?: null;
-  mimetype: string;
-  hidden: boolean;
-  parent_id: string;
-  size: number;
-  total_comments: number;
-  resolved_comments: number;
-  user?: (UserEntity)[] | null;
-  deleted: boolean;
-  orientation?: null;
-  url: string;
-  email_data?: null;
-  url_w_query: string;
-  url_w_host: string;
+
+export interface Folder {
+  id: string
+  name: string
+  hidden: boolean
+  access: boolean
 }
-export interface UserEntity {
-  id?: (IdEntity)[] | null;
-  username: UsernameOrInitialsOrEmailOrColorOrProfilePicture;
-  initials: UsernameOrInitialsOrEmailOrColorOrProfilePicture;
-  email: UsernameOrInitialsOrEmailOrColorOrProfilePicture;
-  color: UsernameOrInitialsOrEmailOrColorOrProfilePicture;
-  profilePicture: UsernameOrInitialsOrEmailOrColorOrProfilePicture;
-}
-export interface IdEntity {
-  type: string;
-  contentEncoding: string;
-}
-export interface UsernameOrInitialsOrEmailOrColorOrProfilePicture {
-  type: string;
+
+export interface Space {
+  id: string
 }

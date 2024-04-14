@@ -7,17 +7,28 @@ export interface List {
   name: string
   orderindex: number
   content: string
-  status: string
-  priority: number
-  assignee: number
+  status: Status | null
+  priority: Priority | null
+  assignee: number | null
   task_count: number
-  due_date: number
-  start_date: number
+  due_date: number | null
+  start_date: number | null
   folder: Folder
   space: Space
   archived: boolean
   override_statuses: boolean
   permission_level: string
+}
+
+export interface Status {
+  status: string
+  color: string
+  hide_label: boolean
+}
+
+export interface Priority {
+  priority: string
+  color: string
 }
 
 export interface Folder {

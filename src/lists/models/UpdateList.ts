@@ -18,7 +18,7 @@ export interface UpdateListResponse {
   content: string
   priority: any
   assignee: any
-  due_date: any
+  due_date: string
   start_date: any
   folder: Folder
   space: Space
@@ -48,4 +48,5 @@ export interface Status {
   orderindex: number
   color: string
   type: string
+  status_group: string
 }

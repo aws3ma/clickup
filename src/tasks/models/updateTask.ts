@@ -1,80 +1,142 @@
 export interface UpdateTaskInput {
-  name: string;
-  description: string;
-  status: string;
-  priority: number;
-  due_date: number;
-  due_date_time: boolean;
-  parent: string;
-  time_estimate: number;
-  start_date: number;
-  start_date_time: boolean;
-  assignees: Assignees;
-  archived: boolean;
-}
-export interface Assignees {
-  add?: (number)[] | null;
-  rem?: (number)[] | null;
+  name?: string
+  description?: string
+  status?: string
+  priority?: number
+  due_date?: number
+  due_date_time?: boolean
+  parent?: string
+  time_estimate?: number
+  start_date?: number
+  start_date_time?: boolean
+  assignees?: Assignees
+  archived?: boolean
 }
 
+export interface Assignees {
+  add: number[]
+  rem: number[]
+}
+
+
 export interface UpdateTaskResponse {
-  id: string;
-  custom_id?: null;
-  custom_item_id?: null;
-  name: string;
-  text_content: string;
-  description: string;
-  markdown_description: string;
-  status: Status;
-  archived: boolean;
-  orderindex: string;
-  date_created: string;
-  date_updated: string;
-  date_closed?: null;
-  creator: Creator;
-  assignees?: (null)[] | null;
-  checklists?: (null)[] | null;
-  tags?: (null)[] | null;
-  parent: string;
-  priority?: null;
-  due_date?: null;
-  start_date?: null;
-  time_estimate?: null;
-  time_spent?: null;
-  custom_fields?: (CustomFieldsEntity)[] | null;
-  list: ListOrFolderOrSpace;
-  folder: ListOrFolderOrSpace;
-  space: ListOrFolderOrSpace;
-  url: string;
+  id: string
+  custom_id: any
+  custom_item_id: number
+  name: string
+  text_content: string
+  description: string
+  status: Status
+  orderindex: string
+  date_created: string
+  date_updated: string
+  date_closed: any
+  date_done: any
+  archived: boolean
+  creator: Creator
+  assignees: Assignee[]
+  group_assignees: any[]
+  watchers: Watcher[]
+  checklists: any[]
+  tags: Tag[]
+  parent: any
+  priority: Priority
+  due_date: string
+  start_date: string
+  points: any
+  time_estimate: any
+  time_spent: number
+  custom_fields: any[]
+  dependencies: any[]
+  linked_tasks: any[]
+  locations: any[]
+  team_id: string
+  url: string
+  sharing: Sharing
+  permission_level: string
+  list: List
+  project: Project
+  folder: Folder
+  space: Space
+  attachments: any[]
 }
+
 export interface Status {
-  status: string;
-  color: string;
-  orderindex: number;
-  type: string;
+  id: string
+  status: string
+  color: string
+  orderindex: number
+  type: string
 }
+
 export interface Creator {
-  id: number;
-  username: string;
-  color: string;
-  profilePicture: string;
+  id: number
+  username: string
+  color: string
+  email: string
+  profilePicture: any
 }
-export interface CustomFieldsEntity {
-  id: string;
-  name: string;
-  type: string;
-  type_config: TypeConfig;
-  date_created: string;
-  hide_from_guests: boolean;
-  value?: string | null;
-  required: boolean;
+
+export interface Assignee {
+  id: number
+  username: string
+  color: string
+  initials: string
+  email: string
+  profilePicture: any
 }
-export interface TypeConfig {
-  single_user?: boolean | null;
-  include_groups?: boolean | null;
-  include_guests?: boolean | null;
-  include_team_members?: boolean | null;
+
+export interface Watcher {
+  id: number
+  username: string
+  color: string
+  initials: string
+  email: string
+  profilePicture: any
 }
-export interface ListOrFolderOrSpace {
-  id: string;
+
+export interface Tag {
+  name: string
+  tag_fg: string
+  tag_bg: string
+  creator: number
+}
+
+export interface Priority {
+  color: string
+  id: string
+  orderindex: string
+  priority: string
+}
+
+export interface Sharing {
+  public: boolean
+  public_share_expires_on: any
+  public_fields: string[]
+  token: any
+  seo_optimized: boolean
+}
+
+export interface List {
+  id: string
+  name: string
+  access: boolean
+}
+
+export interface Project {
+  id: string
+  name: string
+  hidden: boolean
+  access: boolean
+}
+
+export interface Folder {
+  id: string
+  name: string
+  hidden: boolean
+  access: boolean
+}
+
+export interface Space {
+  id: string
 }
