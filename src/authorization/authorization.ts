@@ -1,4 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
+
+import xior, {XiorError, XiorResponse} from 'xior'
 import { baseurl } from '../baseurl'
 import { GetAccessTokenResponse } from './models/getAccessToken'
 import { GetAuthorizedUserResponse } from './models/getAuthorizedUser'
@@ -14,6 +16,15 @@ export class Authorization {
   ) {
     this.isAuthorized = false
     this.accessToken = { access_token: '', token_type: 'Bearer' }
+    
+    xior.defaults.baseURL = baseurl
+    xior.interceptors.request.use(config => {
+      if (this.accessToken.access_token !== '') {
+        config.headers.Authorization = `${this.accessToken.token_type} ${this.accessToken.access_token}`
+      }
+      return config
+    })
+
     axios.defaults.baseURL = baseurl
     axios.interceptors.request.use(config => {
       if (this.accessToken.access_token !== '') {
@@ -23,17 +34,17 @@ export class Authorization {
     })
   }
   getAccessToken = async (): Promise<
-    AxiosResponse<GetAccessTokenResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<GetAccessTokenResponse> | XiorError | undefined
   > => {
     try {
-      const response = await axios.post<GetAccessTokenResponse>(
+      const response = await xior.post<GetAccessTokenResponse>(
         `/oauth/token?client_id=${this.client_id}&client_secret=${this.client_secret}&code=${this.code}`,
       )
       this.accessToken = response.data
       // this.isAuthorized = true
       return response
     } catch (e: any) {
-      if (e instanceof AxiosError) return e
+      if (e instanceof XiorError) return e
       console.log(e)
     }
   }
