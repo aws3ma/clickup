@@ -1,10 +1,10 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import axios, { XiorError, XiorResponse } from 'xior'
 import { baseurl } from '../baseurl'
 import { GetFoldersResponse } from './models/getFolders'
 import { CreateFolderResponse, CreateFolderInput } from './models/createFolder'
 import { UpdateFolderInput, UpdateFolderResponse } from './models/updateFolder'
 import { GetFolderResponse } from './models/getfolder'
-import { ClickupApiAccessToken, ClickupError } from '../globalInterfaces'
+import { ClickupApiAccessToken } from '../globalInterfaces'
 export class Folders {
   constructor(
     private readonly accessToken: ClickupApiAccessToken,
@@ -24,7 +24,7 @@ export class Folders {
     spaceId?: string | number,
     archived: boolean = false,
   ): Promise<
-    AxiosResponse<GetFoldersResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<GetFoldersResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.get<GetFoldersResponse>(
@@ -32,7 +32,7 @@ export class Folders {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
@@ -40,7 +40,7 @@ export class Folders {
     data: CreateFolderInput,
     spaceId?: string | number,
   ): Promise<
-    AxiosResponse<CreateFolderResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<CreateFolderResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.post<CreateFolderResponse>(
@@ -49,14 +49,14 @@ export class Folders {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
   getFolder = async (
     folderId?: string | number,
   ): Promise<
-    AxiosResponse<GetFolderResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<GetFolderResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.get<GetFolderResponse>(
@@ -64,7 +64,7 @@ export class Folders {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
@@ -72,7 +72,7 @@ export class Folders {
     data: UpdateFolderInput,
     folderId?: string | number,
   ): Promise<
-    AxiosResponse<UpdateFolderResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<UpdateFolderResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.put<UpdateFolderResponse>(
@@ -81,20 +81,20 @@ export class Folders {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
   deleteFolder = async (
     folderId?: string | number,
-  ): Promise<AxiosResponse<any> | AxiosError<ClickupError> | undefined> => {
+  ): Promise<XiorResponse<any> | XiorError | undefined> => {
     try {
       const response = await axios.delete(
         `/folder/${folderId || this.folderId}`,
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }

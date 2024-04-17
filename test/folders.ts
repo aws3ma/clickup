@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios'
+import { XiorError } from 'xior'
 import { Folders } from 'clickupapis'
 const folders = new Folders({
   access_token:
@@ -14,7 +14,7 @@ const fn = async () => {
     if (resp === undefined) {
       throw new Error('Resp is undefined')
     }
-    if (resp instanceof AxiosError) {
+    if (resp instanceof XiorError) {
       console.log(resp.response?.data)
       throw new Error('axios error')
     }

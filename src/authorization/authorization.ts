@@ -1,5 +1,3 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
-
 import xior, {XiorError, XiorResponse} from 'xior'
 import { baseurl } from '../baseurl'
 import { GetAccessTokenResponse } from './models/getAccessToken'
@@ -24,14 +22,6 @@ export class Authorization {
       }
       return config
     })
-
-    axios.defaults.baseURL = baseurl
-    axios.interceptors.request.use(config => {
-      if (this.accessToken.access_token !== '') {
-        config.headers.Authorization = `${this.accessToken.token_type} ${this.accessToken.access_token}`
-      }
-      return config
-    })
   }
   getAccessToken = async (): Promise<
     XiorResponse<GetAccessTokenResponse> | XiorError | undefined
@@ -49,28 +39,28 @@ export class Authorization {
     }
   }
   getAuthorizedUser = async (): Promise<
-    | AxiosResponse<GetAuthorizedUserResponse>
-    | AxiosError<ClickupError>
+    | XiorResponse<GetAuthorizedUserResponse>
+    | XiorError
     | undefined
   > => {
     try {
-      const response = await axios.get<GetAuthorizedUserResponse>(`/user`)
+      const response = await xior.get<GetAuthorizedUserResponse>(`/user`)
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
   getAuthorizedTeam = async (): Promise<
-    | AxiosResponse<GetAuthorizedTeamResponse>
-    | AxiosError<ClickupError>
+    | XiorResponse<GetAuthorizedTeamResponse>
+    | XiorError
     | undefined
   > => {
     try {
-      const response = await axios.get<GetAuthorizedTeamResponse>(`/team`)
+      const response = await xior.get<GetAuthorizedTeamResponse>(`/team`)
       return response
     } catch (error) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }

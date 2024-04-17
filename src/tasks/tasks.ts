@@ -1,11 +1,10 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { XiorResponse, XiorError } from 'xior'
 import { baseurl } from '../baseurl'
 import { GetTasksResponse } from './models/getTasks'
 import { CreateTaskInput, CreateTaskResponse } from './models/createTask'
 import { GetTaskResponse } from './models/getTask'
 import { UpdateTaskInput, UpdateTaskResponse } from './models/updateTask'
 import { ClickupApiAccessToken, ClickupError } from '../globalInterfaces'
-import { AxiosError } from 'axios'
 
 export class Tasks {
   constructor(private readonly accessToken: ClickupApiAccessToken) {
@@ -23,7 +22,7 @@ export class Tasks {
     archived: boolean = false,
     subtasks: boolean = true,
   ): Promise<
-    AxiosResponse<GetTasksResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<GetTasksResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.get<GetTasksResponse>(
@@ -31,7 +30,7 @@ export class Tasks {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
@@ -39,7 +38,7 @@ export class Tasks {
     list_id: string,
     data: CreateTaskInput,
   ): Promise<
-    AxiosResponse<CreateTaskResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<CreateTaskResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.post<CreateTaskResponse>(
@@ -48,7 +47,7 @@ export class Tasks {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
@@ -56,7 +55,7 @@ export class Tasks {
     task_id: string,
     include_subtasks: boolean = true,
   ): Promise<
-    AxiosResponse<GetTaskResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<GetTaskResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.get<GetTaskResponse>(
@@ -64,7 +63,7 @@ export class Tasks {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
@@ -72,7 +71,7 @@ export class Tasks {
     task_id: string,
     data: UpdateTaskInput,
   ): Promise<
-    AxiosResponse<UpdateTaskResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<UpdateTaskResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.put<UpdateTaskResponse>(
@@ -81,18 +80,18 @@ export class Tasks {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
   deleteTask = async (
     task_id: string,
-  ): Promise<AxiosResponse<any> | AxiosError<ClickupError> | undefined> => {
+  ): Promise<XiorResponse<any> | XiorError | undefined> => {
     try {
       const response = await axios.delete(`/task/${task_id}`)
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
@@ -100,7 +99,7 @@ export class Tasks {
   //   team_id: string,
   //   include_subtasks: boolean = true,
   // ): Promise<
-  //   AxiosResponse<any> | AxiosError<ClickupError> | undefined
+  //   XiorResponse<any> | XiorError | undefined
   // > => {
   //   try {
   //     const response = await axios.get(
@@ -108,7 +107,7 @@ export class Tasks {
   //     )
   //     return response
   //   } catch (error: any) {
-  //     if (error instanceof AxiosError) return error
+  //     if (error instanceof XiorError) return error
   //     console.log(error)
   //   }
   // }
@@ -117,7 +116,7 @@ export class Tasks {
   //   custom_task_ids: boolean = false,
   //   team_id?: string,
   // ): Promise<
-  //   AxiosResponse<any> | AxiosError<ClickupError> | undefined
+  //   XiorResponse<any> | XiorError | undefined
   // > => {
   //   try {
   //     const url: string = `/task/${task_id}/time_in_status?custom_task_ids=${custom_task_ids}`

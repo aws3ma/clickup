@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosResponse } from 'axios'
+import axios, { XiorError, XiorResponse } from 'xior'
 import { baseurl } from '../baseurl'
 import { GetListsResponse } from './models/getLists'
 import { CreateListInput } from './models/createList'
@@ -26,7 +26,7 @@ export class Lists {
     folder_id: string | number,
     archived: boolean = false,
   ): Promise<
-    AxiosResponse<GetListsResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<GetListsResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.get<GetListsResponse>(
@@ -34,7 +34,7 @@ export class Lists {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
@@ -42,7 +42,7 @@ export class Lists {
     folder_id: string,
     data: CreateListInput,
   ): Promise<
-    AxiosResponse<CreateListResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<CreateListResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.post<CreateListResponse>(
@@ -51,15 +51,15 @@ export class Lists {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
   getFolderlessLists = async (
     space_id: string | number,
   ): Promise<
-    | AxiosResponse<GetFolderlessListsResponse>
-    | AxiosError<ClickupError>
+    | XiorResponse<GetFolderlessListsResponse>
+    | XiorError
     | undefined
   > => {
     try {
@@ -68,7 +68,7 @@ export class Lists {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
@@ -76,8 +76,8 @@ export class Lists {
     space_id: string,
     data: CreateFolderlessListInput,
   ): Promise<
-    | AxiosResponse<CreateFolderlessListResponse>
-    | AxiosError<ClickupError>
+    | XiorResponse<CreateFolderlessListResponse>
+    | XiorError
     | undefined
   > => {
     try {
@@ -87,20 +87,20 @@ export class Lists {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
   getList = async (
     list_id: string | number,
   ): Promise<
-    AxiosResponse<GetListResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<GetListResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.get<GetListResponse>(`/list/${list_id}`)
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
@@ -108,7 +108,7 @@ export class Lists {
     list_id: string,
     data: UpdateListInput,
   ): Promise<
-    AxiosResponse<UpdateListResponse> | AxiosError<ClickupError> | undefined
+    XiorResponse<UpdateListResponse> | XiorError | undefined
   > => {
     try {
       const response = await axios.put<UpdateListResponse>(
@@ -117,42 +117,42 @@ export class Lists {
       )
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
   deleteList = async (
     list_id: string,
-  ): Promise<AxiosResponse<any> | AxiosError<ClickupError> | undefined> => {
+  ): Promise<XiorResponse<any> | XiorError | undefined> => {
     try {
       const response = await axios.delete(`/list/${list_id}`)
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
   addTaskToList = async (
     list_id: string,
     task_id: string,
-  ): Promise<AxiosResponse<any> | AxiosError<ClickupError> | undefined> => {
+  ): Promise<XiorResponse<any> | XiorError | undefined> => {
     try {
       const response = await axios.post(`/list/${list_id}/task/${task_id}`)
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
   removeTaskFromList = async (
     list_id: string,
     task_id: string,
-  ): Promise<AxiosResponse<any> | AxiosError<ClickupError> | undefined> => {
+  ): Promise<XiorResponse<any> | XiorError | undefined> => {
     try {
       const response = await axios.delete(`/list/${list_id}/task/${task_id}`)
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }

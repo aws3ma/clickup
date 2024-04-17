@@ -1,6 +1,6 @@
 {
   "name": "clickupapis",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Clickup APIs",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -30,7 +30,6 @@
     "typescript": "^5.4.4"
   },
   "dependencies": {
-    "axios": "^1.6.8",
     "xior": "^0.3.12"
   }
 }

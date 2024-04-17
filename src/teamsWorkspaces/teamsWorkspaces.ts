@@ -1,9 +1,8 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { XiorResponse, XiorError } from 'xior'
 import { baseurl } from '../baseurl'
 import { GetAuthorizedTeamsWorkspacesResponse } from './models/getAuthorizedTeamsWorkspaces'
 import { GetWorkspaceSeatsResponse } from './models/getWorkspaceSeats'
 import { ClickupApiAccessToken, ClickupError } from '../globalInterfaces'
-import { AxiosError } from 'axios'
 import { GetWorkspacePlanResponse } from './models/getWorkspacePlan'
 export class TeamsWorkspaces {
   constructor(private readonly accessToken: ClickupApiAccessToken, private teamId?:string | number) {
@@ -20,14 +19,14 @@ export class TeamsWorkspaces {
     this.teamId=teamId
   }
   getAuthorizedTeamsWorkspaces = async (): Promise<
-  AxiosResponse<GetAuthorizedTeamsWorkspacesResponse> | AxiosError<ClickupError> | undefined
+  XiorResponse<GetAuthorizedTeamsWorkspacesResponse> | XiorError | undefined
 > => {
     try {
       const response = await axios.get<GetAuthorizedTeamsWorkspacesResponse>(
         `/team`)
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
@@ -37,14 +36,14 @@ export class TeamsWorkspaces {
    * @returns workspace seats
    */
   getWorkspaceSeats = async (teamId?: string | number): Promise<
-  AxiosResponse<GetWorkspaceSeatsResponse> | AxiosError<ClickupError> | undefined
+  XiorResponse<GetWorkspaceSeatsResponse> | XiorError | undefined
 > => {
     try {
       const response = await axios.get<GetWorkspaceSeatsResponse>(
         `/team/${teamId || this.teamId}/seats`)
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
@@ -54,14 +53,14 @@ export class TeamsWorkspaces {
    * @returns workspace plan
    */
   getWorkspacePlan = async (teamId?: string | number): Promise<
-  AxiosResponse<GetWorkspacePlanResponse> | AxiosError<ClickupError> | undefined
+  XiorResponse<GetWorkspacePlanResponse> | XiorError | undefined
 > => {
     try {
       const response = await axios.get<GetWorkspacePlanResponse>(
         `/team/${teamId || this.teamId}/plan`)
       return response
     } catch (error: any) {
-      if (error instanceof AxiosError) return error
+      if (error instanceof XiorError) return error
       console.log(error)
     }
   }
